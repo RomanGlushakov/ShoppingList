@@ -22,6 +22,8 @@ class ShopItemFragment(
 
 ) {
 
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
+
     private lateinit var viewModel: ShopItemViewModel
     private lateinit var tilName: TextInputLayout
     private lateinit var etName: TextInputEditText
@@ -31,6 +33,14 @@ class ShopItemFragment(
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implements interface OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +85,8 @@ class ShopItemFragment(
             tilName.error = message
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishedListener.onEditingFinished()
+
         }
     }
 
@@ -162,6 +173,10 @@ class ShopItemFragment(
         tilCount = view.findViewById(R.id.til_count)
         etCount = view.findViewById(R.id.et_count)
         saveButton = view.findViewById(R.id.save_button)
+    }
+
+    interface OnEditingFinishedListener {
+        fun onEditingFinished()
     }
 
 

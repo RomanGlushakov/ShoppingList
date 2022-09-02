@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ShoppingList</string>
+    <string name="add_item">add_item</string>
+    <string name="save">Save</string>
+    <string name="name">Name</string>
+    <string name="count">Count</string>
+    <string name="name_error">Name is invalid</string>
+    <string name="count_error">Count is invalid</string>
 </resources>
